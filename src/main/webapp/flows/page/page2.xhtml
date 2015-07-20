@@ -1,0 +1,86 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/layouts/standard.xhtml">
+
+    <ui:define name="content">
+        <h:form id="fillForm">
+            <pe:tooltip for="panelAdd" atPosition="right center" myPosition="left center">
+                <p:graphicImage url="/style/nesim_znaczek.gif" /> wypełń one pola jeno poprawnie
+            </pe:tooltip>
+            <p:panel style="text-align: center; width: 50%; margin: auto">
+                <h:outputLabel style="color: green"
+                               value="Matko przenajświętsza toż to autentyczny sukces! #{passingValueBean.beanie}"/>
+                <h:panelGrid columns="2" cellpadding="5" style="width: 40%; margin: auto;" id="panelAdd">
+                    <p:outputLabel for="brand" value="Brand: "/>
+                    <p:autoComplete id="brand" value="#{maskView.brand}" completeMethod="#{dtFilterView.completeBrand}"
+                                    var="car1" itemValue="#{car1}" itemLabel="#{car1}" forceSelection="true" placeholder="Auto complete" />
+
+                    <p:outputLabel for="year" value="Year:"/>
+                    <p:inputMask id="year" value="#{maskView.year}" mask="9999" placeholder="2010" />
+
+                    <p:outputLabel for="color" value="Color:"/>
+                    <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;" >
+                        <f:selectItems value="#{dtFilterView.colors}" />
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel for="price" value="Price:"/>
+                    <p:inputText id="price" value="#{maskView.price}" placeholder="0-10000000" />
+                    <p:outputLabel for="priceSlider" value=""/>
+                    <p:slider id="priceSlider" for="price" style="width: 200px" minValue="0" maxValue="10000000" step="5000"/>
+
+
+                    <p:outputLabel for="sold" value="Sold:"/>
+                    <p:selectBooleanButton id="sold" value="#{maskView.sold}" onLabel="Yes" offLabel="No"
+                                           onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:200px" />
+                </h:panelGrid>
+            </p:panel>
+
+            <p:panel style="width: 50%; margin: auto;">&nbsp;
+            <p:commandButton id="btn_reset" value="Reset" type="reset" style="float: right"/>
+            <p:commandButton id="submitButton" value="Submit" icon="ui-icon-circle-check" oncomplete="PF('dlg').show()"
+                              actionListener="#{dtFilterView.testData(maskView)}" style="float: right;" update=":dialogForm:valuesDlg"/>
+            <p:commandButton value="A tera w drugie stronem" action="#{dtFilterView.getNewView('page1')}" style="float: right;"
+                            icon="ui-icon-circle-arrow-w">
+                <p:confirm header="Konfiermejszyn" message="W drugie stone bydzie gorzej, konfierm?"
+                           icon="ui-icon-alert"/>
+            </p:commandButton>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Konfierm" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="Nie konfierm" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+        <h:form id="dialogForm">
+            <p:dialog widgetVar="dlg" id="valuesDlg" global="true" resizable="false" header="Values" showEffect="fade" hideEffect="explode">
+                <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                    <h:outputText value="Brand: "/>
+                    <h:outputText id="brandValue" value="#{maskView.brand}"/>
+
+                    <h:outputText value="Year: "/>
+                    <h:outputText id="yearValue" value="#{maskView.year}"/>
+
+                    <h:outputText value="Color: "/>
+                    <h:outputText id="colorValue" value="#{maskView.color}"/>
+
+                    <h:outputText value="Price: "/>
+                    <h:outputText id="priceValue" value="#{maskView.price}"/>
+
+                    <h:outputText value="Sold: "/>
+                    <h:outputText id="soldValue" value="#{maskView.sold}"/>
+                </p:panelGrid>
+                <p:commandButton value="Konfierm" actionListener="#{dtFilterView.addNewCar(maskView)}"
+                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="start()"/>
+                <p:commandButton value="Nie konfierm" type="button" styleClass="ui-confirmdialog-no"
+                                 icon="ui-icon-close" onclick="PF('dlg').hide()" update=":fillForm"/>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
