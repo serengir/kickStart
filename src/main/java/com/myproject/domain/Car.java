@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Marek on 2015-07-14.
  */
-public class Car implements Serializable{
+public class Car implements Serializable, Comparable<Car>{
     private String id;
     private String brand;
     private int year;
@@ -96,4 +96,9 @@ public class Car implements Serializable{
         result = 31 * result + (sold ? 1 : 0);
         return result;
     }
+
+    public int compareTo(Car other){
+        return year-other.year;
+    }
+
 }

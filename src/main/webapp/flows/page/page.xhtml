@@ -102,5 +102,11 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
         </h:form>
+        <h:form>
+            <p:panel>
+                <p:chart type="line" model="#{chartView.lineModel}" style="height:400px;"/>
+            </p:panel>
+
+        </h:form>
     </ui:define>
 </ui:composition>
