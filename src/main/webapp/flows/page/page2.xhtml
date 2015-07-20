@@ -16,25 +16,29 @@
             <p:panel style="text-align: center; width: 50%; margin: auto">
                 <h:outputLabel style="color: green"
                                value="Matko przenajświętsza toż to autentyczny sukces! #{passingValueBean.beanie}"/>
-                <h:panelGrid columns="2" cellpadding="5" style="width: 40%; margin: auto;" id="panelAdd">
+                <h:panelGrid columns="3" cellpadding="5" style="width: 40%; margin: auto;" id="panelAdd">
                     <p:outputLabel for="brand" value="Brand: "/>
                     <p:autoComplete id="brand" value="#{maskView.brand}" completeMethod="#{dtFilterView.completeBrand}"
-                                    var="car1" itemValue="#{car1}" itemLabel="#{car1}" forceSelection="true" placeholder="Auto complete" />
+                                    var="car1" itemValue="#{car1}" itemLabel="#{car1}" forceSelection="true" placeholder="Auto complete" required="true" requiredMessage="Pole wymagane!"/>
+                    <p:message for="brand" id="brandMessage"/>
 
                     <p:outputLabel for="year" value="Year:"/>
-                    <p:inputMask id="year" value="#{maskView.year}" mask="9999" placeholder="2010" />
+                    <p:inputMask id="year" value="#{maskView.year}" mask="9999" placeholder="2010" required="true" requiredMessage="Pole wymagane!"/>
+                    <p:message for="year" id="yearMessage"/>
 
                     <p:outputLabel for="color" value="Color:"/>
-                    <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;" >
+                    <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;">
                         <f:selectItems value="#{dtFilterView.colors}" />
                     </p:selectOneMenu>
+                    <p:message for="color" id="colorMessage"/>
 
 
                     <p:outputLabel for="price" value="Price:"/>
-                    <p:inputText id="price" value="#{maskView.price}" placeholder="0-10000000" />
+                    <p:inputText id="price" value="#{maskView.price}" placeholder="0-10000000" required="true" requiredMessage="Pole wymagane!"/>
+                    <p:message for="price" id="priceMessage"/>
                     <p:outputLabel for="priceSlider" value=""/>
                     <p:slider id="priceSlider" for="price" style="width: 200px" minValue="0" maxValue="10000000" step="5000"/>
-
+                    <p:message for="priceSlider"/>
 
                     <p:outputLabel for="sold" value="Sold:"/>
                     <p:selectBooleanButton id="sold" value="#{maskView.sold}" onLabel="Yes" offLabel="No"
@@ -44,8 +48,8 @@
 
             <p:panel style="width: 50%; margin: auto;">&nbsp;
             <p:commandButton id="btn_reset" value="Reset" type="reset" style="float: right"/>
-            <p:commandButton id="submitButton" value="Submit" icon="ui-icon-circle-check" oncomplete="PF('dlg').show()"
-                              actionListener="#{dtFilterView.testData(maskView)}" style="float: right;" update=":dialogForm:valuesDlg"/>
+            <p:commandButton id="submitButton" value="Submit" icon="ui-icon-circle-check" actionListener="#{dtFilterView.testData(maskView)}"
+                             style="float: right;" update=":dialogForm:valuesDlg, panelAdd, :fillForm"/>
             <p:commandButton value="A tera w drugie stronem" action="#{dtFilterView.getNewView('page1')}" style="float: right;"
                             icon="ui-icon-circle-arrow-w">
                 <p:confirm header="Konfiermejszyn" message="W drugie stone bydzie gorzej, konfierm?"
@@ -77,9 +81,9 @@
                     <h:outputText id="soldValue" value="#{maskView.sold}"/>
                 </p:panelGrid>
                 <p:commandButton value="Konfierm" actionListener="#{dtFilterView.addNewCar(maskView)}"
-                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="start()"/>
+                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onsuccess="PF('dlg').hide()"/>
                 <p:commandButton value="Nie konfierm" type="button" styleClass="ui-confirmdialog-no"
-                                 icon="ui-icon-close" onclick="PF('dlg').hide()" update=":fillForm"/>
+                                 icon="ui-icon-close" onclick="PF('dlg').hide()"/>
             </p:dialog>
         </h:form>
     </ui:define>

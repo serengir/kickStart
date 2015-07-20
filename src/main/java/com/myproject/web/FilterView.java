@@ -2,11 +2,13 @@ package com.myproject.web;
 
 import com.myproject.domain.Car;
 import com.myproject.services.CarService;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,18 +148,11 @@ public class FilterView implements Serializable {
     public void deleteCar(Car target) {
         cars = passingValue.getOldCarList();
         cars.remove(target);
+        filteredCars.remove(target);
         passingValue.setOldCarList(cars);
     }
 
     public void testData(MaskView mask){
-        if (mask.getBrand().isEmpty()){
-            mask.setBrand("Fiat 126p");
-        }
-        if (mask.getPrice().isEmpty()){
-            mask.setPrice("100");
-        }
-        if (mask.getYear().isEmpty()){
-            mask.setYear("2015");
-        }
+        RequestContext.getCurrentInstance().execute("PF('dlg').show()");
     }
 }
