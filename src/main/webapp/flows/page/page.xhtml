@@ -6,25 +6,29 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/layouts/standard.xhtml">
+    <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript" ></script>
     <ui:define name="content">
         <h:form id="carsTableForm">
-            <p:commandButton value="Click me!" action="#{dtFilterView.getNewView('page2')}" />
+            <p:commandButton value="Click me!" action="#{dtFilterView.getNewView('page2')}"/>
             <p:remoteCommand name="foo" update=":form2"/>
-            <p:dataTable id="carTableId" var="car" value="#{dtFilterView.cars}" widgetVar="carsTable" style="text-align: center; width: 90%; margin: auto"
+            <p:dataTable id="carTableId" var="car" value="#{dtFilterView.cars}" widgetVar="carsTable"
+                         style="text-align: center; width: 90%; margin: auto"
                          emptyMessage="No cars found with given criteria" filteredValue="#{dtFilterView.filteredCars}">
                 <p:ajax event="filter" onsuccess="foo()"/>
                 <f:facet name="header">
                     <p:outputPanel>
                         <h:outputLabel for="globalFilter" value="Search all fields:"/>
-                        <p:inputText id="globalFilter"  style="width:150px; margin: 10px"
+                        <p:inputText id="globalFilter" style="width:150px; margin: 10px"
                                      placeholder="Enter keyword"/>
-                        <p:commandButton value="Filter" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-circle-zoomout"
+                        <p:commandButton value="Filter" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-circle-zoomout"
                                          onclick="PF('carsTable').filter()" update="car"/>
                     </p:outputPanel>
                 </f:facet>
 
-                <p:column sortBy="#{car.id}" headerText="Id" >
-                    <p:commandLink value="#{car.id}" actionListener="#{dtFilterView.deleteCar(car)}" update=":carsTableForm:carTableId, :chartForm"/>
+                <p:column sortBy="#{car.id}" headerText="Id" style="background-color: #{car.id};">
+                    <p:commandLink value="#{car.id}" actionListener="#{dtFilterView.deleteCar(car)}"
+                                   update=":carsTableForm:carTableId, :chartForm"/>
                 </p:column>
 
                 <p:column sortBy="#{car.year}" headerText="Year">
@@ -55,7 +59,7 @@
                         </p:selectCheckboxMenu>
                     </f:facet>
                     <f:facet name="footer">
-                             <p:outputPanel autoUpdate="true" >
+                        <p:outputPanel autoUpdate="true">
                             #{dtFilterView.sumFilterPrices()}
                         </p:outputPanel>
                     </f:facet>
@@ -91,33 +95,38 @@
         </h:form>
 
         <h:form id="form2">
-            <p:growl id="message" showDetail="true" />
+            <p:growl id="message" showDetail="true"/>
             <p:panel style="width: 90%; margin: auto;">&nbsp;
-            <p:commandButton value="Add new car to the table." action="#{dtFilterView.getNewView('page2')}" style="float: right;" icon="ui-icon-circle-plus">
-                <p:confirm header="Confirmation" message="This will take you to car adding site. Are you sure?" icon="ui-icon-alert" />
-            </p:commandButton>
+                <p:commandButton value="Add new car to the table." action="#{dtFilterView.getNewView('page2')}"
+                                 style="float: right;" icon="ui-icon-circle-plus">
+                    <p:confirm header="Confirmation" message="This will take you to car adding site. Are you sure?"
+                               icon="ui-icon-alert"/>
+                </p:commandButton>
             </p:panel>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
             </p:confirmDialog>
         </h:form>
         <h:form id="chartForm">
             <p:accordionPanel style="width: 90%; margin: auto;">
                 <p:tab title="Chart I: year/price by brand">
-            
-                <p:chart type="line" model="#{chartView.lineModel}" style="height:400px;"/>
+
+                    <p:chart type="line" model="#{chartView.lineModel}" style="height:400px;"/>
                 </p:tab>
                 <p:tab title="Chart II: year/price by color">
                     <p:chart type="line" model="#{chartView.lineModel2}" style="height:400px;"/>
-            </p:tab>
+                </p:tab>
                 <p:tab title="Image gallery">
-                    <p:contentFlow value="#{imagesView.images}" var="image">
-                        <p:graphicImage name="/style/#{image}" styleClass="content" />
+                    <p:contentFlow value="#{dtFilterView.images}" var="image">
+                        <p:graphicImage url="/style/#{image}" styleClass="content"/>
                         <div class="caption">#{image}</div>
                     </p:contentFlow>
                 </p:tab>
-</p:accordionPanel>
+                <p:tab title="Map">
+                    <p:gmap center="51.1176407,17.0860792" zoom="17" type="HYBRID" style="width:100%;height:400px" />
+                </p:tab>
+            </p:accordionPanel>
         </h:form>
     </ui:define>
 </ui:composition>

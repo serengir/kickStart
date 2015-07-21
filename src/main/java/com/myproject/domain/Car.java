@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by Marek on 2015-07-14.
  */
 public class Car implements Serializable, Comparable<Car>{
-    private int id;
+    private String id;
     private String brand;
     private int year;
     private String color;
     private int price;
     private boolean sold;
 
-    public Car(int id, String brand, int year, String color, int price, boolean sold) {
+    public Car(String id, String brand, int year, String color, int price, boolean sold) {
         this.id = id;
         this.brand = brand;
         this.year = year;
@@ -38,11 +38,11 @@ public class Car implements Serializable, Comparable<Car>{
         this.price = price;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -88,7 +88,7 @@ public class Car implements Serializable, Comparable<Car>{
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = id.hashCode();
         result = 31 * result + brand.hashCode();
         result = 31 * result + year;
         result = 31 * result + color.hashCode();

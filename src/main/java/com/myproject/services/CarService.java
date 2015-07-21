@@ -52,8 +52,19 @@ public class CarService {
         return list;
     }
 
-    public int getRandomId() {
-        return (int) (Math.random() * 79999999)+10000000;
+    public String getRandomId() {
+        String result="#"+((int) (Math.random() * 799999)+100000);
+        result = result.replaceAll("0","A");
+        result = result.replaceAll("1","B");
+        result = result.replaceAll("2","C");
+        result = result.replaceAll("3","D");
+        result = result.replaceAll("4","E");
+        result = result.replaceAll("5","F");
+        result = result.replaceAll("6","F");
+        result = result.replaceAll("7","E");
+        result = result.replaceAll("8","C");
+        result = result.replaceAll("9","D");
+        return result;
     }
 
     private int getRandomYear() {
