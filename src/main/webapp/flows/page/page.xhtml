@@ -24,7 +24,7 @@
                 </f:facet>
 
                 <p:column sortBy="#{car.id}" headerText="Id" >
-                    <p:commandLink value="#{car.id}" actionListener="#{dtFilterView.deleteCar(car)}" update=":carsTableForm:carTableId"/>
+                    <p:commandLink value="#{car.id}" actionListener="#{dtFilterView.deleteCar(car)}" update=":carsTableForm:carTableId, :chartForm"/>
                 </p:column>
 
                 <p:column sortBy="#{car.year}" headerText="Year">
@@ -102,11 +102,22 @@
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
         </h:form>
-        <h:form>
-            <p:panel>
+        <h:form id="chartForm">
+            <p:accordionPanel style="width: 90%; margin: auto;">
+                <p:tab title="Chart I: year/price by brand">
+            
                 <p:chart type="line" model="#{chartView.lineModel}" style="height:400px;"/>
-            </p:panel>
-
+                </p:tab>
+                <p:tab title="Chart II: year/price by color">
+                    <p:chart type="line" model="#{chartView.lineModel2}" style="height:400px;"/>
+            </p:tab>
+                <p:tab title="Image gallery">
+                    <p:contentFlow value="#{imagesView.images}" var="image">
+                        <p:graphicImage name="/style/#{image}" styleClass="content" />
+                        <div class="caption">#{image}</div>
+                    </p:contentFlow>
+                </p:tab>
+</p:accordionPanel>
         </h:form>
     </ui:define>
 </ui:composition>

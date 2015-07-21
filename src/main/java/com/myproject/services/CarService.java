@@ -52,8 +52,8 @@ public class CarService {
         return list;
     }
 
-    public String getRandomId() {
-        return UUID.randomUUID().toString().substring(0, 8);
+    public int getRandomId() {
+        return (int) (Math.random() * 79999999)+10000000;
     }
 
     private int getRandomYear() {

@@ -36,6 +36,10 @@ public class FilterView implements Serializable {
             cars = service.createCars(30);
             passingValue.setOldCarList(cars);
         }
+        images = new ArrayList<String>();
+        for (int i = 1; i <= 5; i++) {
+            images.add("nature" + i + ".jpg");
+        }
     }
 
     public boolean filterByPrice(Object value, Object filter, Locale locale) {
@@ -154,5 +158,11 @@ public class FilterView implements Serializable {
 
     public void testData(MaskView mask){
         RequestContext.getCurrentInstance().execute("PF('dlg').show()");
+    }
+
+    private List<String> images;
+
+    public List<String> getImages() {
+        return images;
     }
 }

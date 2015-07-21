@@ -6,14 +6,14 @@ import java.io.Serializable;
  * Created by Marek on 2015-07-14.
  */
 public class Car implements Serializable, Comparable<Car>{
-    private String id;
+    private int id;
     private String brand;
     private int year;
     private String color;
     private int price;
     private boolean sold;
 
-    public Car(String id, String brand, int year, String color, int price, boolean sold) {
+    public Car(int id, String brand, int year, String color, int price, boolean sold) {
         this.id = id;
         this.brand = brand;
         this.year = year;
@@ -38,11 +38,11 @@ public class Car implements Serializable, Comparable<Car>{
         this.price = price;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ public class Car implements Serializable, Comparable<Car>{
         if (year != car.year) return false;
         if (price != car.price) return false;
         if (sold != car.sold) return false;
-        if (!id.equals(car.id)) return false;
+        if (id!=car.id) return false;
         if (brand != null ? !brand.equals(car.brand) : car.brand != null) return false;
         return !(color != null ? !color.equals(car.color) : car.color != null);
 
@@ -88,7 +88,7 @@ public class Car implements Serializable, Comparable<Car>{
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id;
         result = 31 * result + brand.hashCode();
         result = 31 * result + year;
         result = 31 * result + color.hashCode();
@@ -101,4 +101,15 @@ public class Car implements Serializable, Comparable<Car>{
         return year-other.year;
     }
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id='" + id + '\'' +
+                ", brand='" + brand + '\'' +
+                ", year=" + year +
+                ", color='" + color + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                '}';
+    }
 }
