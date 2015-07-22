@@ -1,8 +1,12 @@
 package com.myproject.web;
 
 import com.myproject.domain.Car;
+import com.myproject.model.CarModel;
+import com.myproject.services.CarModelService;
 import com.myproject.services.CarService;
 import org.primefaces.context.RequestContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -33,7 +37,8 @@ public class FilterView implements Serializable {
         if(passingValue.getOldCarList()!=null){
             cars = passingValue.getOldCarList();
         }else{
-            cars = service.createCars(30);
+            cars = service.createCars(5);
+            importCars();
             passingValue.setOldCarList(cars);
         }
         images = new ArrayList<String>();
@@ -141,8 +146,23 @@ public class FilterView implements Serializable {
     }
 
     private void addNewCar(String brand, String year, String color, String price, boolean sold){
+        String generatedId=service.getRandomId();
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/database-context.xml");
+
+        CarModel cm = new CarModel();
+        cm.setCarid(generatedId);
+        cm.setBrand(brand);
+        cm.setYear(Integer.valueOf(year));
+        cm.setColor(color);
+        cm.setPrice(Integer.valueOf(price));
+        if(sold)cm.setSold("true");
+        else cm.setSold("false");
+
+        CarModelService emService = context.getBean("carModelService", CarModelService.class);
+        emService.persistCarModel(cm);
+        context.close();
         cars = passingValue.getOldCarList();
-        cars.add(new Car(service.getRandomId(),brand,Integer.valueOf(year),color,Integer.valueOf(price),sold));
+        cars.add(new Car(generatedId,brand,Integer.valueOf(year),color,Integer.valueOf(price),sold));
         passingValue.setOldCarList(cars);
     }
     public void addNewCar(MaskView mask){
@@ -164,5 +184,17 @@ public class FilterView implements Serializable {
 
     public List<String> getImages() {
         return images;
+    }
+
+    public void importCars() {
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/database-context.xml");
+
+        CarModelService emService = context.getBean("carModelService", CarModelService.class);
+        //for(int i=8;i<10;i++) {
+            CarModel cm = emService.findCarModelById(8);
+            cars.add(new Car(cm.getCarid(),cm.getBrand(),cm.getYear(),cm.getColor(),cm.getPrice(),cm.getSold().equals("true")));
+        //}
+
+        context.close();
     }
 }

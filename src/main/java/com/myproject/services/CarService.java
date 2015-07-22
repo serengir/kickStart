@@ -60,10 +60,6 @@ public class CarService {
         result = result.replaceAll("3","D");
         result = result.replaceAll("4","E");
         result = result.replaceAll("5","F");
-        result = result.replaceAll("6","F");
-        result = result.replaceAll("7","E");
-        result = result.replaceAll("8","C");
-        result = result.replaceAll("9","D");
         return result;
     }
 

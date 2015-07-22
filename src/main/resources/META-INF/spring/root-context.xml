@@ -12,4 +12,6 @@
     <mvc:resources mapping="/resources/**" location="classpath:/"/>
 
     <import resource="classpath:/META-INF/spring/config-beans.xml"/>
+    <import resource="classpath:/META-INF/spring/database-context.xml"/>
 </beans>
+

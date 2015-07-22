@@ -34,10 +34,10 @@
 
 
                     <p:outputLabel for="price" value="Price:"/>
-                    <p:inputText id="price" value="#{maskView.price}" placeholder="0-10000000" required="true" requiredMessage="Pole wymagane!"/>
+                    <p:inputText id="price" value="#{maskView.price}" placeholder="0-100000" required="true" requiredMessage="Pole wymagane!"/>
                     <p:message for="price" id="priceMessage"/>
                     <p:outputLabel for="priceSlider" value=""/>
-                    <p:slider id="priceSlider" for="price" style="width: 200px" minValue="0" maxValue="10000000" step="5000"/>
+                    <p:slider id="priceSlider" for="price" style="width: 200px" minValue="0" maxValue="100000" step="50"/>
                     <p:message for="priceSlider"/>
 
                     <p:outputLabel for="sold" value="Sold:"/>
