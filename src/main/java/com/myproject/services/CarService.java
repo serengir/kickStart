@@ -4,10 +4,7 @@ import com.myproject.domain.Car;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @ManagedBean(name = "carService")
 @ApplicationScoped
@@ -16,6 +13,8 @@ public class CarService {
     private final static String[] colors;
 
     private final static String[] brands;
+
+    private final static HashMap<String,String> colorCodes;
 
     static {
         colors = new String[10];
@@ -29,6 +28,18 @@ public class CarService {
         colors[7] = "Yellow";
         colors[8] = "Brown";
         colors[9] = "Maroon";
+
+        colorCodes = new HashMap<>();
+        colorCodes.put("Black","#000000");
+        colorCodes.put("White","#FFFFFF");
+        colorCodes.put("Green","#00FF00");
+        colorCodes.put("Red","#FF0000");
+        colorCodes.put("Blue","#0000FF");
+        colorCodes.put("Orange","#FFA500");
+        colorCodes.put("Silver","#C6C6C6");
+        colorCodes.put("Yellow","#FFFF00");
+        colorCodes.put("Brown","#8B4513");
+        colorCodes.put("Maroon","#800000");
 
         brands = new String[10];
         brands[0] = "BMW";
@@ -61,6 +72,10 @@ public class CarService {
         result = result.replaceAll("4","E");
         result = result.replaceAll("5","F");
         return result;
+    }
+
+    public static HashMap<String, String> getColorCodes() {
+        return colorCodes;
     }
 
     private int getRandomYear() {

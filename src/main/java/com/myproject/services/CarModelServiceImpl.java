@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.myproject.DAO.CarDAO;
 import com.myproject.model.CarModel;
 
+import java.util.List;
+
 @Service("carModelService")
 public class CarModelServiceImpl implements CarModelService{
 
@@ -31,4 +33,12 @@ public class CarModelServiceImpl implements CarModelService{
     public void deleteCarModel(CarModel carModel){
         carDAO.deleteCarModel(carModel);
     }
+
+    @Transactional
+    public List<CarModel> getAllCarModels(){
+        return carDAO.getAllCarModels();
+    }
+
+    @Transactional
+    public void deleteAllCarModels() {carDAO.deleteAllCarModels();}
 }

@@ -30,6 +30,9 @@ public class ChartView implements Serializable {
     @ManagedProperty("#{passingValueBean}")
     private PassingValueBean passingValue;
 
+    @ManagedProperty("#{dtFilterView}")
+    private FilterView dtFilterView;
+
     @PostConstruct
     public void init() {
         createLineModels();
@@ -67,6 +70,14 @@ public class ChartView implements Serializable {
         this.passingValue = passingValue;
     }
 
+    public FilterView getDtFilterView() {
+        return dtFilterView;
+    }
+
+    public void setDtFilterView(FilterView dtFilterView) {
+        this.dtFilterView = dtFilterView;
+    }
+
     private void createLineModels() {
         lineModel = initCategoryModel();
         lineModel.setLegendPosition("e");
@@ -96,7 +107,9 @@ public class ChartView implements Serializable {
 
     private LineChartModel initCategoryModel() {
         LineChartModel model = new LineChartModel();
-        cars = passingValue.getOldCarList();
+
+        //cars = passingValue.getOldCarList();
+        cars = dtFilterView.getCars();
         Collections.sort(cars);
         ChartSeries[] carSeries = new ChartSeries[service.getBrands().size()];
         for(int i=0;i<service.getBrands().size();i++){
@@ -114,7 +127,8 @@ public class ChartView implements Serializable {
 
     private LineChartModel initCategoryModel2() {
         LineChartModel model = new LineChartModel();
-        cars = passingValue.getOldCarList();
+        //cars = passingValue.getOldCarList();
+        cars = dtFilterView.getCars();
         Collections.sort(cars);
         ChartSeries[] carSeries = new ChartSeries[service.getColors().size()];
         for(int i=0;i<service.getColors().size();i++){

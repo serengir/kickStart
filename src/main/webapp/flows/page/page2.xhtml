@@ -27,10 +27,17 @@
                     <p:message for="year" id="yearMessage"/>
 
                     <p:outputLabel for="color" value="Color:"/>
-                    <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;">
-                        <f:selectItems value="#{dtFilterView.colors}" />
+                    <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;" var="t">
+                        <f:selectItems value="#{dtFilterView.colors}"/>
+                        <p:column style="width:10%">
+                            <div style="background-color: #{dtFilterView.getColorCode(t)}; width: 10px; height: 10px">&nbsp;</div>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="ewqweqweqw" />
+                        </p:column>
                     </p:selectOneMenu>
                     <p:message for="color" id="colorMessage"/>
+
 
 
                     <p:outputLabel for="price" value="Price:"/>
@@ -63,6 +70,7 @@
             </p:confirmDialog>
         </h:form>
         <h:form id="dialogForm">
+            <p:growl id="message" showDetail="true" sticky="true"/>
             <p:dialog widgetVar="dlg" id="valuesDlg" global="true" resizable="false" header="Values" showEffect="fade" hideEffect="explode">
                 <p:panelGrid id="display" columns="2" columnClasses="label,value">
                     <h:outputText value="Brand: "/>
@@ -81,7 +89,8 @@
                     <h:outputText id="soldValue" value="#{maskView.sold}"/>
                 </p:panelGrid>
                 <p:commandButton value="Konfierm" actionListener="#{dtFilterView.addNewCar(maskView)}"
-                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onsuccess="PF('dlg').hide()"/>
+                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onsuccess="PF('dlg').hide()"
+                                 update=":dialogForm:message, message"/>
                 <p:commandButton value="Nie konfierm" type="button" styleClass="ui-confirmdialog-no"
                                  icon="ui-icon-close" onclick="PF('dlg').hide()"/>
             </p:dialog>

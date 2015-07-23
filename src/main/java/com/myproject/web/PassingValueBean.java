@@ -7,9 +7,6 @@ import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by Marek on 2015-07-15.
- */
 @ManagedBean(name="passingValueBean")
 @SessionScoped
 public class PassingValueBean implements Serializable{

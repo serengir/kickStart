@@ -3,16 +3,24 @@ package com.myproject.web;
 import com.myproject.domain.Car;
 import com.myproject.model.CarModel;
 import com.myproject.services.CarModelService;
+import com.myproject.services.CarModelServiceImpl;
 import com.myproject.services.CarService;
+import org.hibernate.*;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.primefaces.context.RequestContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import org.hibernate.cfg.Configuration;
 import javax.faces.context.FacesContext;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +40,13 @@ public class FilterView implements Serializable {
     @ManagedProperty("#{passingValueBean}")
     private PassingValueBean passingValue;
 
+
     @PostConstruct
     public void init() {
         if(passingValue.getOldCarList()!=null){
             cars = passingValue.getOldCarList();
         }else{
-            cars = service.createCars(5);
-            importCars();
+            cars = service.createCars(20);
             passingValue.setOldCarList(cars);
         }
         images = new ArrayList<String>();
@@ -70,6 +78,10 @@ public class FilterView implements Serializable {
 
     public List<Car> getCars() {
         return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     public List<Car> getFilteredCars() {
@@ -166,13 +178,15 @@ public class FilterView implements Serializable {
         passingValue.setOldCarList(cars);
     }
     public void addNewCar(MaskView mask){
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Sakses!","Z powodzeniem dodano nowego wpisa."));
         addNewCar(mask.getBrand(), mask.getYear(), mask.getColor(), mask.getPrice(), mask.isSold());
     }
 
     public void deleteCar(Car target) {
         cars = passingValue.getOldCarList();
         cars.remove(target);
-        filteredCars.remove(target);
+        if(filteredCars!=null)filteredCars.remove(target);
         passingValue.setOldCarList(cars);
     }
 
@@ -186,15 +200,7 @@ public class FilterView implements Serializable {
         return images;
     }
 
-    public void importCars() {
-        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/database-context.xml");
-
-        CarModelService emService = context.getBean("carModelService", CarModelService.class);
-        //for(int i=8;i<10;i++) {
-            CarModel cm = emService.findCarModelById(8);
-            cars.add(new Car(cm.getCarid(),cm.getBrand(),cm.getYear(),cm.getColor(),cm.getPrice(),cm.getSold().equals("true")));
-        //}
-
-        context.close();
+    public String getColorCode(String color){
+        return service.getColorCodes().get(color);
     }
 }
