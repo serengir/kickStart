@@ -29,16 +29,8 @@
                     <p:outputLabel for="color" value="Color:"/>
                     <p:selectOneMenu id="color" value="#{maskView.color}" style="width: 200px;" var="t">
                         <f:selectItems value="#{dtFilterView.colors}"/>
-                        <p:column style="width:10%">
-                            <div style="background-color: #{dtFilterView.getColorCode(t)}; width: 10px; height: 10px">&nbsp;</div>
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="ewqweqweqw" />
-                        </p:column>
                     </p:selectOneMenu>
                     <p:message for="color" id="colorMessage"/>
-
-
 
                     <p:outputLabel for="price" value="Price:"/>
                     <p:inputText id="price" value="#{maskView.price}" placeholder="0-100000" required="true" requiredMessage="Pole wymagane!"/>
@@ -57,9 +49,9 @@
             <p:commandButton id="btn_reset" value="Reset" type="reset" style="float: right"/>
             <p:commandButton id="submitButton" value="Submit" icon="ui-icon-circle-check" actionListener="#{dtFilterView.testData(maskView)}"
                              style="float: right;" update=":dialogForm:valuesDlg, panelAdd, :fillForm"/>
-            <p:commandButton value="A tera w drugie stronem" action="#{dtFilterView.getNewView('page1')}" style="float: right;"
+            <p:commandButton value="A tera w drugie stronem" action="#{dtFilterView.getNewView('page1')}" style="float: left;"
                             icon="ui-icon-circle-arrow-w">
-                <p:confirm header="Konfiermejszyn" message="W drugie stone bydzie gorzej, konfierm?"
+                <p:confirm header="Konfiermejszyn" message="W drugie stone bydzie gorzej. Konfierm?"
                            icon="ui-icon-alert"/>
             </p:commandButton>
             </p:panel>
